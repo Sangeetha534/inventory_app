@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Product Movements</h2>
+
+<!-- Add Movement Form -->
+<form method="POST" action="/add_movement">
+    <label>Product:</label>
+    <select name="product_id" required>
+        {% for product in products %}
+        <option value="{{ product.product_id }}">{{ product.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>From Location:</label>
+    <select name="from_location">
+        <option value="">-- None --</option>
+        {% for location in locations %}
+        <option value="{{ location.location_id }}">{{ location.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>To Location:</label>
+    <select name="to_location">
+        <option value="">-- None --</option>
+        {% for location in locations %}
+        <option value="{{ location.location_id }}">{{ location.name }}</option>
+        {% endfor %}
+    </select>
+
+    <label>Quantity:</label>
+    <input type="number" name="qty" required>
+
+    <button type="submit">Add Movement</button>
+</form>
+
+<hr>
+
+<!-- Movement List -->
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Qty</th>
+        <th>Timestamp</th>
+    </tr>
+    {% for move in movements %}
+    <tr>
+        <td>{{ move.movement_id }}</td>
+        <td>{{ move.product_id }}</td>
+        <td>{{ move.from_location if move.from_location else "-" }}</td>
+        <td>{{ move.to_location if move.to_location else "-" }}</td>
+        <td>{{ move.qty }}</td>
+        <td>{{ move.timestamp }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
